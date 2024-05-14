@@ -9,8 +9,8 @@ The following dependencies are used in this project:
   2) **Async/Await** _version of extensions for Request & RoutesBuilder from GraphQL-Kit (updated to use async/await to register API instead of Schema objects)._
      - https://github.com/alexsteinerde/graphql-kit
     
-  3) **Graphiti**: _Web based IDE to send queries to your GraphQL server_
-     - https://github.com/GraphQLSwift/Graphiti.git
+  3) **Graphi**: _Web based IDE to send queries to your GraphQL server_
+     - https://github.com/alexsteinerde/graphiql-vapor.git
 
 ## How to run?
 To set up & run this project, please do the following:
