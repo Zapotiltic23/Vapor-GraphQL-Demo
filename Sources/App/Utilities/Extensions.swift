@@ -62,6 +62,20 @@ extension FieldKey {
     static var nationality: Self { "nationality" }
     static var teamID: Self { "team_id" }
     static var leagueID: Self { "league_id" }
+    static var gameDate: Self { "game_date" }
+    static var homeTeamID: Self { "home_team_id" }
+    static var awayTeamID: Self { "away_team_id" }
+    static var homeTeamScore: Self { "home_team_score" }
+    static var awayTeamScore: Self { "away_team_score" }
+    static var gameLocation: Self { "game_location" }
+    static var gameDescription: Self { "game_description" }
+    static var isCancelled: Self { "is_cancelled" }
+    static var gameType: Self { "game_type" }
+    static var gameSport: Self { "game_sport" }
+    static var ownerId: Self { "owner_id" }
+    static var fileType: Self { "file_type" }
+    static var fileData: Self { "file_data" }
+    static var fileName: Self { "file_name" }
     
     static var age: Self { "age" }
     static var nickname: Self { "nickname" }
@@ -73,6 +87,7 @@ extension FieldKey {
     static var unitOfMeasure: Self { "unit_of_measure" }
     static var drillIDs: Self { "drill_ids" }
     static var drillType: Self { "drill_type" }
+    static var drillSport: Self { "drill_sport" }
     
     
     static var streetNumber: Self { "street_number" }
@@ -89,4 +104,6 @@ extension FieldKey {
     static var passwordHash: Self { "password_hash" }
     static var updatedBy: Self { "updated_by" }
     static var deviceIDs: Self { "device_ids" }
+    static var teamsFollowed: Self { "teams_followed" }
+    static var leaguesFollowed: Self { "leagues_followed" }
 }

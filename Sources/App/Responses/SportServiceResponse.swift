@@ -8,14 +8,14 @@
 import Fluent
 import Vapor
 
-final class AnalyticsResponse<M: Content>: Content, AsyncResponseEncodable {
+struct SportServiceResponse: Content, AsyncResponseEncodable {
      
-    var data: [M]?
-    var statusCode: HTTPStatus
+    var data: Data?
+    var statusCode: Int
     var errorMessage: String?
     var dateOrigin: Date
     
-    init (statusCode: HTTPStatus, dateOrigin: Date = .now, data: [M]? = nil, errorMessage: String? = nil) {
+    init (statusCode: Int, dateOrigin: Date = .now, data: Data? = nil, errorMessage: String? = nil) {
         self.statusCode = statusCode
         self.errorMessage = errorMessage
         self.dateOrigin = dateOrigin
@@ -27,4 +27,20 @@ final class AnalyticsResponse<M: Content>: Content, AsyncResponseEncodable {
         try response.content.encode(self)
         return response
     }
+}
+
+
+struct GraphQLResponse<T: Codable>: Codable {
+    let data: T?
+    let errors: [GraphQLError]?
+}
+
+struct GraphQLError: Codable {
+    let message: String
+    let locations: [GraphQLLocation]?
+}
+
+struct GraphQLLocation: Codable {
+    let line: Int
+    let column: Int
 }

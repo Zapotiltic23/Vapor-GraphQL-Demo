@@ -31,23 +31,31 @@ final class DrillModel: Model, Content {
     @Field(key: .drillType)
     var drillType: String
     
-    @Field(key: .createdAt)
-    var createdAt: String?
+    @Field(key: .drillSport)
+    var drillSport: String
+    
+    @Timestamp(key: .createdAt, on: .create, format: .iso8601)
+    var createdAt: Date?
+    
+    @OptionalField(key: .updatedBy)
+    var updatedBy: UUID?
     
     @Timestamp(key: .updatedAt, on: .update, format: .iso8601)
     var updatedAt: Date?
     
     public init() {}
     
-    public init(id: UUID?, athleteID: AthleteModel.IDValue, name: String, recordedMeasure: Double, unitOfMeasure: String, drillType: String, createdAt: String? = nil, updatedAt: Date? = nil) {
+    public init(id: UUID?, athleteID: AthleteModel.IDValue, name: String, recordedMeasure: Double, unitOfMeasure: String, drillType: String, drillSport: String, createdAt: Date?, updatedAt: Date?, updatedBy: UUID?) {
         self.id = id
         self.$athlete.id = athleteID
         self.name = name
         self.recordedMeasure = recordedMeasure
         self.unitOfMeasure = unitOfMeasure
         self.drillType = drillType
+        self.drillSport = drillSport
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-    }   
+        self.updatedBy = updatedBy
+    }
 }
 

@@ -2,7 +2,6 @@ import NIOSSL
 import Fluent
 import FluentPostgresDriver
 import Vapor
-import GraphiQLVapor
 import Graphiti
 
 // configures your application
@@ -20,15 +19,7 @@ public func configure(_ app: Application) async throws {
     ), as: .psql)
     
     
-    // Enable GraphiQL web page to send queries to the GraphQL endpoint.
-    if !app.environment.isRelease {
-        app.enableGraphiQL()
-    }
-    
     app.logger.logLevel = .debug
-    
-    // GraphQL schema + api registration
-    app.register(api: SportService.shared.sportServiceAPI)
     
     // Migrations
     app.migrations.add(UserMigration())
@@ -46,6 +37,17 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(DrillSeed())
     
     app.migrations.add(CoachAthleteMigration())
+    
+    app.migrations.add(GameMigration())
+    app.migrations.add(GameSeed())
+    
+    app.migrations.add(FileMigration())
+    app.migrations.add(FileSeed())
+    
+    app.migrations.add(VisitorMigration())
+    app.migrations.add(VisitorSeed())
+    
+    app.middleware.use(ErrorMiddleware.default(environment: app.environment))
     try await app.autoMigrate().get()
     
     // Register routes

@@ -7,7 +7,15 @@
 
 import Foundation
 
-public enum UserRole: String, Codable {
+public enum NetworkErrors: Error {
+    case badNetwork(String)
+    case badEncoding
+    case badDecoding(String)
+    case badGraphQLFile(String)
+    case badStatusCode(String)
+    case modelExists(String)
+}
+public enum UserRole: String, Codable, Sendable {
     case admin = "admin"
     case coach = "coach"
     case athlete = "athlete"

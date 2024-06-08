@@ -18,8 +18,10 @@ struct DrillMigration: AsyncMigration {
             .field(.recordedMeasure, .double, .required)
             .field(.unitOfMeasure, .string, .required)
             .field(.drillType, .string, .required)
-            .field(.createdAt, .string, .required)
+            .field(.drillSport, .string, .required)
+            .field(.createdAt, .string)
             .field(.updatedAt, .string)
+            .field(.updatedBy, .string)
             .create()
     }
     

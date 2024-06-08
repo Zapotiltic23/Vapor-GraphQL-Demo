@@ -27,6 +27,24 @@ final actor SportService: Sendable {
             
             Scalar(UUID.self)
             Scalar(Date.self)
+            Scalar(Data.self)
+            
+            Input(UserPayload.self, as: "UserPayload") {
+                InputField("id", as: UUID.self)
+                InputField("name", as: String.self)
+                InputField("lastName", as: String.self)
+                InputField("userName", as: String.self)
+                InputField("email", as: String.self)
+                InputField("password", as: String.self)
+                InputField("confirmPassword", as: String.self)
+                InputField("userRole", as: String.self)
+                InputField("dateOfBirth", as: String.self)
+                InputField("hasRegisteredRole", as: Bool.self)
+                InputField("deviceIDs", as: [UUID].self)
+                InputField("updatedBy", as: UUID.self)
+                InputField("createdAt", as: Date.self)
+                InputField("updatedAt", as: Date.self)
+            }
             
             Type(DrillModel.self) {
                 Field("id", at: \.id)
@@ -35,8 +53,10 @@ final actor SportService: Sendable {
                 Field("recordedMeasure", at: \.recordedMeasure)
                 Field("unitOfMeasure", at: \.unitOfMeasure)
                 Field("drillType", at: \.drillType)
+                Field("drillSport", at: \.drillSport)
                 Field("createdAt", at: \.createdAt)
                 Field("updatedAt", at: \.updatedAt)
+                Field("updatedBy", at: \.updatedBy)
             }
             
             Type(TokenModel.self) {
@@ -134,24 +154,64 @@ final actor SportService: Sendable {
                 Field("updatedAt", at: \.updatedAt)
             }
             
+            Type(GameModel.self) {
+                Field("id", at: \.id)
+                Field("gameDate", at: \.gameDate)
+                Field("homeTeamID", at: \.homeTeamID)
+                Field("homeTeamScore", at: \.homeTeamScore)
+                Field("awayTeamID", at: \.awayTeamID)
+                Field("awayTeamScore", at: \.awayTeamScore)
+                Field("gameLocation", at: \.gameLocation)
+                Field("gameDescription", at: \.gameDescription)
+                Field("isCancelled", at: \.isCancelled)
+                Field("gameType", at: \.gameType)
+                Field("gameSport", at: \.gameSport)
+                Field("leagueID", at: \.leagueID)
+                Field("updatedBy", at: \.updatedBy)
+                Field("createdAt", at: \.createdAt)
+                Field("updatedAt", at: \.updatedAt)
+            }
+            
+            Type(FileModel.self) {
+                Field("id", at: \.id)
+                Field("ownerId", at: \.ownerId)
+                Field("fileType", at: \.fileType)
+                Field("fileName", at: \.fileName)
+                Field("fileData", at: \.fileData)
+                Field("createdAt", at: \.createdAt)
+            }
+            
+            Type(VisitorModel.self) {
+                Field("id", at: \.id)
+                Field("userID", at: \.$user.id)
+                Field("name", at: \.name)
+                Field("userName", at: \.userName)
+                Field("lastName", at: \.lastName)
+                Field("email", at: \.email)
+                Field("teamsFollowed", at: \.teamsFollowed)
+                Field("leaguesFollowed", at: \.leaguesFollowed)
+                Field("updatedBy", at: \.updatedBy)
+                Field("createdAt", at: \.createdAt)
+                Field("updatedAt", at: \.updatedAt)
+            }
+            
             Query {
                 Field("getAllDrills", at: SportServiceResolver.getAllDrills)
                 Field("getAllUsers", at: SportServiceResolver.getAllUsers)
                 Field("getAllAthletes", at: SportServiceResolver.getAllAthletes)
                 Field("getAllCoaches", at: SportServiceResolver.getAllCoaches)
+                Field("getAllGames", at: SportServiceResolver.getAllGames)
+                Field("getAllFiles", at: SportServiceResolver.getAllFiles)
+                Field("getAllVisitors", at: SportServiceResolver.getAllVisitors)
+                Field("handleLogin", at: SportServiceResolver.handleLogin)
             }
             
             Mutation {
-                Field("handleLogin", at: SportServiceResolver.handleLogin) {
-                    Argument("name", at: \.name)
-                    Argument("lastName", at: \.lastName)
-                    Argument("userName", at: \.userName)
-                    Argument("dateOfBirth", at: \.dateOfBirth)
-                    Argument("email", at: \.email)
-                    Argument("password", at: \.password)
-                    Argument("userRole", at: \.userRole)
+                Field("createUser", at: SportServiceResolver.createUser) {
+                    Argument("payload", at: \.payload)
                 }
             }
         })
 }
+        
 
