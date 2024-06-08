@@ -5,12 +5,6 @@ This project aims to explore the combination of all of Vapor's useful features g
 The following dependencies are used in this project:
   1) **Graphiti**: _Swift library for building GraphQL schemas._
       - https://github.com/GraphQLSwift/Graphiti/tree/main
-    
-  2) **Async/Await** _version of extensions for Request & RoutesBuilder from GraphQL-Kit (updated to use async/await to register API instead of Schema objects)._
-     - https://github.com/alexsteinerde/graphql-kit
-    
-  3) **Graphi**: _Web based IDE to send queries to your GraphQL server_
-     - https://github.com/alexsteinerde/graphiql-vapor.git
 
 ## How to run?
 To set up & run this project, please do the following:
@@ -27,57 +21,109 @@ To set up & run this project, please do the following:
   6) Set the project schema to the folder where your project lives:
      - Edit Schema > Working Directory > Check “Use custom directory” > [Choose your project’s folder]
 
-## Endpoint
-Here it is the project's endpoint: 
-- http://127.0.0.1:8080/graphql
+## Endpoints
+Here are the project's endpoints: 
+- [Public] http://127.0.0.1:8080/api-v2/register
+- [Basic Auth] http://127.0.0.1:8080/api-v2/login
+- [Token Auth] http://127.0.0.1:8080/api-v2/graphql
 
 ## Calling the Service
-The service seeds the following models so that queries can be serve againsta the service and return a response. See _MockSeedData.swift_ for more info:
-  - **Two User models with distinct roles**: _Coach & Athlete._
+The service seeds the following models so that queries can be serve against the service and return a response. See _MockSeedData.swift_ for more info:
+  - **Four User models with distinct roles**: _Visitor (2), Coach (1) & Athlete (1)._
   - **One Coach model**: _Representing a user's role as a Coach._
   - **One Athlete model**: _Representing a user's role as an Athlete._
+  - **Two Visitor models**: _Representing a user's role as a visitor._
   - **Five Drill models**: _Drills belogning to the Athlete's model._
+  - **Three Game models**: _Games belogning to the League's model._
 
 Queries + Examples:
   - **getAllUsers**: _Returns all users with the specified fields by the query_
   - **getAllCoches**: _Returns all coaches with the specified fields by the query_
   - **getAllAthletes**: _Returns all athletes with the specified fields by the query_
   - **getAllDrills**: _Returns all drills with the specified fields by the query_
+  - **getAllGames**: _Returns all games with the specified fields by the query_
+  - **getAllFiles**: _Returns all files with the specified fields by the query_
+  - **getAllVisitors**: _Returns all visitors with the specified fields by the query_
+  - **handleLogin**: _Return a token authorizing the user to call other resources_
 
 ```yaml
-query {
+☝️ A Query retrieving a single object
+
+{
   getAllUsers {
+    id
     name
     lastName
     userName
-    email
+    deviceIDs
+    createdAt
+    updatedAt
+    updatedBy
     userRole
+    hasRegisteredRole
     dateOfBirth
+    email
+  }
+}
+
+✌️ A Query retrieving multiple object
+
+{
+  getAllFiles {
+    id
+    ownerId
+    fileType
+    fileData
+    fileName
+    createdAt
+  }
+
+  getAllUsers {
+    id
+    name
+    lastName
+    email
   }
 }
 ```
 
 
 Mutations + Examples:
-  - **handleLogin**: _Retrieves an authorized UserModel from the databse which is used to generete and return a token in the response_
+  - **createUser**: _Creates a new UserModel and saves it to the database._
 
 ```yaml
-mutation {
-  handleLogin(name: "Horacio", lastName: "Sanchez", userName: "Zapotiltic23", dateOfBirth: "April 1, 1990" email: "horacio@matrixnumerics2.com", password: "0123456789", userRole: "coach") {
+mutation($payload: UserPayload!) {
+  createUser(payload: $payload) {
     id
-    userID
-    value
+    name
+    lastName
+    userName
+    deviceIDs
     createdAt
+    updatedAt
+    updatedBy
+    userRole
+    hasRegisteredRole
+    dateOfBirth
+    email
   }
 }
 ```
 
-## Obstacles
-Here's a breakdown of some of the obstacles found while implementing Graphiti + Vapor:
+## Challenges
+Here's a breakdown of some of the challeneges to implement on the Graphiti + Vapor server-side app:
 
-1) **Route Protection**
-   - How to protect our route/ednpoint using Vapor's middleware features?
+1) **File Upload**
+   - Set up the project to serve files uploaded to the service
   
-2) **Authentication + Authorization**
-   - How to successfully authenticate a UserModel (conforming to ModelAuthenticatable) with the database?
-       - _On a REST approach, this is done via grouping the route with the authenticator() provided by the UserModel (since it comforms to protocol ModelAuthenticatable). In this way, when calling handleLogin, the payload is used to authenticate the user with the database._
+2) **APN Integration**
+   - Integrate Apple Push Notifications
+  
+3) **Live Activities**
+   - Integrate Apple's Live Activities APIs and enable Dynamic Island on iOS
+  
+4) **Forgot Password Flow**
+   - Integrate a flow to reset a user's lost/forgotten password
+  
+5) **Sign In with Apple Flow**
+   - Integrate Sign in with Apple
